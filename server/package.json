@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "sql backend server for shopping store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AMITKESARI2000/rb_shopping_store.git"
+  },
+  "author": "amit kesari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AMITKESARI2000/rb_shopping_store/issues"
+  },
+  "homepage": "https://github.com/AMITKESARI2000/rb_shopping_store#readme"
+}
