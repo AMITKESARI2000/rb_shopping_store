@@ -12,14 +12,19 @@ const mysql = require('mysql');
 // const { getUser } = require('./routers/chatusers');
 // const { verifyKey } = require('./helper/spamCheck');
 
-dotenv.config();
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'rb_shopping_store'
+});
 
-// for deployment
-const PORT = process.env.PORT || 3001;
+connection.connect(err => {
+    if (err) {
+        return err;
+    }
+});
 
-// using body-parser to parse the data
-app.use(body_parser.json());
-app.use(body_parser.urlencoded());
 app.use(cors());
 
 const dbConnection = mysql.createConnection({
