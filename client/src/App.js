@@ -5,21 +5,10 @@ import Landing from './landing/Landing';
 import ProductList from './products/ProductList';
 import Login from './SignIn/login';
 import Signup from './SignIn/signup';
-import { useEffect} from "react";
+
 
 function App() {
 
-    useEffect(() => {
-        // this.getItems();
-   });
-
-    const getItems = _ => {
-        fetch('http://localhost:4000/products')
-            .then(response => response.json())
-            .then(response => this.setState( { items: response.data } ))
-            .catch(err => console.error(err))
-    }
-    
     return (
         <Template>
             <Routes>

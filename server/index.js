@@ -7,19 +7,19 @@ const body_parser = require('body-parser');
 const dotenv = require('dotenv');
 const mysql = require('mysql');
 
-
 // socket route functions
 // const { getUser } = require('./routers/chatusers');
 // const { verifyKey } = require('./helper/spamCheck');
 
-const PORT = 5000 || ProcessingInstruction.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
+dotenv.config();
 
 const dbConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'root123',
+    password: process.env.DB_PASSWORD || 'root123',
     database: 'rb_shopping_store',
 });
 
@@ -41,27 +41,30 @@ dbConnection.connect((err) => {
 
 // simple route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to th rb_shopping_store application.' });
+    let sqlQuery = 'SELECT * FROM product';
+    dbConnection.query(sqlQuery, function (error, results) {
+        if (error) throw error;
+        console.log('Product list is: ', results);
+        // res.send({
+        //     message: 'Welcome to the rb_shopping_store application.',
+        //     data: results,
+        // });
+        res.send(results);
+    });
 });
 
 app.get('/createdb', (req, res) => {
-    let sqlQuery = 'CREATE DATABASE rb_shopping_store; use rb_shopping_store;';
+    // let sqlQuery = 'CREATE DATABASE rb_shopping_store;';
+    let sqlQuery = `use rb_shopping_store;`;
+
     dbConnection.query(sqlQuery, (err, result) => {
         if (err) throw err;
-        console.log(result);
+        console.log("db create:", result);
         res.send('rb store db created');
     });
 });
 
-dbConnection.query(
-    'SELECT * from product',
-    function (error, results) {
-        if (error) throw error;
-        console.log('The solution is: ', results[0]);
-    }
-);
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
-dbConnection.end();
+// dbConnection.end();
