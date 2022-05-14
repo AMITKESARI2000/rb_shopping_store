@@ -12,27 +12,16 @@ const mysql = require('mysql');
 // const { getUser } = require('./routers/chatusers');
 // const { verifyKey } = require('./helper/spamCheck');
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'rb_shopping_store'
-});
-
-connection.connect(err => {
-    if (err) {
-        return err;
-    }
-});
+const PORT = 5000 || ProcessingInstruction.env.PORT;
 
 app.use(cors());
 
 const dbConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: 'root123',
+    database: 'rb_shopping_store',
 });
-// database: 'rbshoppingstore',
 
 dbConnection.connect((err) => {
     if (err) {
@@ -40,8 +29,6 @@ dbConnection.connect((err) => {
     }
     console.log('MySQL connected...');
 });
-
-
 
 // importing all the routers
 // const chatboxRouter = require('./routers/chatbox');
@@ -58,7 +45,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/createdb', (req, res) => {
-    let sqlQuery = 'CREATE DATABASE rbstore';
+    let sqlQuery = 'CREATE DATABASE rb_shopping_store; use rb_shopping_store;';
     dbConnection.query(sqlQuery, (err, result) => {
         if (err) throw err;
         console.log(result);
@@ -67,10 +54,10 @@ app.get('/createdb', (req, res) => {
 });
 
 dbConnection.query(
-    'SELECT 1 + 1 AS solution',
+    'SELECT * from product',
     function (error, results) {
         if (error) throw error;
-        console.log('The solution is: ', results[0].solution);
+        console.log('The solution is: ', results[0]);
     }
 );
 

@@ -1,0 +1,23 @@
+{
+  "name": "rb_shopping_store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd client && npm start\" \"cd server && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AMITKESARI2000/rb_shopping_store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AMITKESARI2000/rb_shopping_store/issues"
+  },
+  "homepage": "https://github.com/AMITKESARI2000/rb_shopping_store#readme",
+  "dependencies": {
+    "concurrently": "^7.1.0"
+  }
+}
