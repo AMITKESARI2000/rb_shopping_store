@@ -10,7 +10,7 @@ import { useEffect} from "react";
 function App() {
 
     useEffect(() => {
-        this.getItems();
+        // this.getItems();
    });
 
     const getItems = _ => {
