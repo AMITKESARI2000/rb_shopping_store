@@ -43,22 +43,24 @@ function Landing() {
                         // return <p>Got {product.prod_name}!</p>;
                         return <FeatureProduct key={index} product={product} />;
                     })}
-                    
                 </div>
             </div>
             <div className="d-flex flex-column bg-white py-4">
                 <h5 className="text-center mb-3">Follow us on</h5>
                 <div className="d-flex justify-content-center">
-                    <a href="!#" className="me-3">
+                    <a
+                        href="https://www.facebook.com/amit.kesari/"
+                        className="me-3"
+                    >
                         <FontAwesomeIcon icon={['fab', 'facebook']} size="2x" />
                     </a>
-                    <a href="!#">
+                    <a href="https://www.instagram.com/cdc_iitt/">
                         <FontAwesomeIcon
                             icon={['fab', 'instagram']}
                             size="2x"
                         />
                     </a>
-                    <a href="!#" className="ms-3">
+                    <a href="https://twitter.com/cdc_iitt" className="ms-3">
                         <FontAwesomeIcon icon={['fab', 'twitter']} size="2x" />
                     </a>
                 </div>
