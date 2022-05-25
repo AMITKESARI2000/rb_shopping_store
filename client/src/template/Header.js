@@ -1,12 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Header = () => {
     // Getting details of the user
     const userData = JSON.parse(localStorage.getItem('profile'));
+    let Cid = userData ? userData.uid + 2000 : 2001;
 
     const [openedDrawer, setOpenedDrawer] = useState(false);
+    const [cartCount, setCartCount] = useState(0);
+
+    useEffect(() => {
+        axios
+            .post(`${process.env.REACT_APP_BACKEND_URL}/cart/get-cart`, {
+                cid: Cid,
+            })
+            .then((res) => {
+                setCartCount(res.data.length);
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     function toggleDrawer() {
         setOpenedDrawer(!openedDrawer);
@@ -18,11 +32,22 @@ const Header = () => {
         }
     }
 
+    const handleCardCount = () => {
+        axios
+            .post(`${process.env.REACT_APP_BACKEND_URL}/cart/get-cart`, {
+                cid: Cid,
+            })
+            .then((res) => {
+                setCartCount(res.data.length);
+            })
+            .catch((err) => console.log(err));
+    };
+
     return (
-        <header>
+        <header onMouseEnter={handleCardCount}>
             <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-white border-bottom">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/" onClick={changeNav}>
+                    <Link className="navbar-brand" to={``} onClick={changeNav}>
                         <FontAwesomeIcon
                             icon={['fab', 'bootstrap']}
                             className="ms-1"
@@ -49,19 +74,23 @@ const Header = () => {
                                 </Link>
                             </li>
                         </ul>
-                        <button
-                            type="button"
-                            className="btn btn-outline-dark me-3 d-none d-lg-inline"
-                        >
-                            <FontAwesomeIcon icon={['fas', 'shopping-cart']} />
-                            <span className="ms-3 badge rounded-pill bg-dark">
-                                0
-                            </span>
-                        </button>
+                        <Link to={`/checkout/${Cid}`}>
+                            <button
+                                type="button"
+                                className="btn btn-outline-dark me-3 d-none d-lg-inline"
+                            >
+                                <FontAwesomeIcon
+                                    icon={['fas', 'shopping-cart']}
+                                />
+                                <span className="ms-3 badge rounded-pill bg-dark">
+                                    {cartCount}
+                                </span>
+                            </button>
+                        </Link>
                         <ul className="navbar-nav mb-2 mb-lg-0">
                             <li className="nav-item dropdown">
                                 <a
-                                    href="!#"
+                                    href="/"
                                     className="nav-link dropdown-toggle"
                                     data-toggle="dropdown"
                                     id="userDropdown"
@@ -131,12 +160,19 @@ const Header = () => {
                     </div>
 
                     <div className="d-inline-block d-lg-none">
-                        <button type="button" className="btn btn-outline-dark">
-                            <FontAwesomeIcon icon={['fas', 'shopping-cart']} />
-                            <span className="ms-3 badge rounded-pill bg-dark">
-                                0
-                            </span>
-                        </button>
+                        <Link to={`/checkout/${Cid}`}>
+                            <button
+                                type="button"
+                                className="btn btn-outline-dark"
+                            >
+                                <FontAwesomeIcon
+                                    icon={['fas', 'shopping-cart']}
+                                />
+                                <span className="ms-3 badge rounded-pill bg-dark">
+                                    {cartCount}
+                                </span>
+                            </button>
+                        </Link>
                         <button
                             className="navbar-toggler p-0 border-0 ms-3"
                             type="button"

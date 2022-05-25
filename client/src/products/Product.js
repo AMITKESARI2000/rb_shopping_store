@@ -1,28 +1,38 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
-import React, { useState } from 'react';
 
 const Product = ({ product }) => {
+    // Getting details of the user
+    const userData = JSON.parse(localStorage.getItem('profile'));
     let percentOff;
     let offPrice = `Rs. ${product.price}`;
 
     const [cartList, setCartList] = useState([]);
-    
-    const addToCartClick =(e)=>{
+
+    const addToCartClick = (e) => {
+        let Cid = userData.uid + 2000;
+
+
         axios
             .post(`${process.env.REACT_APP_BACKEND_URL}/cart/add-product`, {
-                cid: product.cid,
-                //todo: add cart data to send
+                cid: Cid,
+                uid: userData.uid,
+                pid: product.pid,
+                cart_status: 'Progress',
+                cart_name: userData.user_name + 'cart',
+                bill: product.price,
+                location: 'Jr-49, Renukoot',
+                email: userData.email,
+                payid: Math.round(Math.random() * 1000000),
             })
             .then((res) => {
-                console.log('hi cartid', res.data);
-                
-                
+                console.log('hi cartid data sent', res.data);
             })
             .catch((err) => console.log(err));
-    }
+    };
 
     if (product.offer && product.offer > 0) {
         percentOff = (
@@ -68,12 +78,13 @@ const Product = ({ product }) => {
                         {offPrice}
                     </p>
                     <div className="d-grid d-block">
-                        
-                        <button className="btn btn-outline-dark mt-3" onClick={addToCartClick}>
+                        <button
+                            className="btn btn-outline-dark mt-3"
+                            onClick={addToCartClick}
+                        >
                             <FontAwesomeIcon icon={['fas', 'cart-plus']} /> Add
                             to cart
                         </button>
-                        
                     </div>
                 </div>
             </div>

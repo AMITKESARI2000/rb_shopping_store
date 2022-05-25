@@ -7,8 +7,8 @@ router.use(express.json());
 
 router.post('/get-product', async (req, res) => {
     try {
-        const { pid } = req.body;
-
+        const { pid } = req.body?req.body:1001;
+        
         // searching for the id
         let sqlQuery = `SELECT * FROM product WHERE pid=${pid}`;
         dbConnection.query(sqlQuery, function (error, results) {

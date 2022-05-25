@@ -7,6 +7,7 @@ import Login from './SignIn/Login';
 import Logout from './SignIn/Logout';
 import Signup from './SignIn/Signup';
 import Profile from './Profile/Profile';
+import Checkout from './Checkout/CheckoutCart';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route exact path="/logout" element={<Logout />} />
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/profile/:uid" element={<Profile />} />
+                <Route exact path="/checkout/:cid" element={<Checkout />} />
                 <Route exact path="/" element={<Landing />} />
             </Routes>
         </Template>

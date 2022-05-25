@@ -11,6 +11,10 @@ const iconPath =
     'M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z';
 
 const ProductDetail = () => {
+    // Getting details of the user
+    const userData = JSON.parse(localStorage.getItem('profile'));
+    let Cid = userData.uid + 2000;
+
     const changeRating = (newRating) => {};
     const { pid } = useParams();
     const [loading, setLoading] = useState(true);
@@ -34,6 +38,28 @@ const ProductDetail = () => {
             })
             .catch((err) => console.log(err));
     }, []);
+
+    const addToCartClick = (e) => {
+        let Cid = userData.uid + 2000;
+
+        axios
+            .post(`${process.env.REACT_APP_BACKEND_URL}/cart/add-product`, {
+                cid: Cid,
+                uid: userData.uid,
+                pid: productData.pid,
+                cart_status: 'Progress',
+                cart_name: userData.user_name + 'cart',
+                bill: productData.price,
+                location: 'Jr-49, Renukoot',
+                email: userData.email,
+                payid: Math.round(Math.random() * 1000000),
+            })
+            .then((res) => {
+                console.log('hi cartid data sent', res.data);
+            })
+            .catch((err) => console.log(err));
+    };
+
 
     return (
         <>
@@ -122,15 +148,20 @@ const ProductDetail = () => {
 
                                 <div className="row g-3 mb-4">
                                     <div className="col">
-                                        <button className="btn btn-outline-dark py-2 w-100">
+                                        <button
+                                            className="btn btn-outline-dark py-2 w-100"
+                                            onClick={addToCartClick}
+                                        >
                                             Add to cart
                                         </button>
                                     </div>
-                                    <div className="col">
-                                        <button className="btn btn-dark py-2 w-100">
-                                            Buy now
-                                        </button>
-                                    </div>
+                                    <Link to={`/checkout/${Cid}`}>
+                                        <div className="col">
+                                            <button className="btn btn-dark py-2 w-100">
+                                                Buy now
+                                            </button>
+                                        </div>
+                                    </Link>
                                 </div>
 
                                 <h4 className="mb-0">Details</h4>
