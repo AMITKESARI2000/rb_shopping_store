@@ -15,12 +15,14 @@ dotenv.config();
 const productRouter = require('./routers/product');
 const cartRouter = require('./routers/cart');
 const loginRouter = require('./routers/login');
+const createdbRouter = require('./routers/createdb');
 
 // adding routes for each of them, it will work relatively
 // app.use('/', authRouter);
 app.use('/products', productRouter);
 app.use('/cart', cartRouter);
 app.use('/login', loginRouter);
+app.use('/createdb', createdbRouter);
 
 // simple route
 app.get('/', (req, res) => {
@@ -36,16 +38,6 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/createdb', (req, res) => {
-    // let sqlQuery = 'CREATE DATABASE rb_shopping_store;';
-    let sqlQuery = `use rb_shopping_store;`;
-
-    dbConnection.query(sqlQuery, (err, result) => {
-        if (err) throw err;
-        console.log('db create:', result);
-        res.send('rb store db created');
-    });
-});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);

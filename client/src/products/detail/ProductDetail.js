@@ -210,6 +210,11 @@ const ProductDetail = () => {
                                 <p className="lead flex-shrink-0">
                                     <small>{productData.prod_desc}</small>
                                 </p>
+                                <h4 className="mb-0">Comments</h4>
+                                <hr />
+
+                                <p>👌 Very good and sturdy jeans</p>
+                                <p>😎 Best fit for the price</p>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import { Button, Tooltip, IconButton } from '@mui/material';
+import CachedIcon from '@mui/icons-material/Cached';
 
 const getCurrentDate = (separator = '/') => {
     let newDate = new Date();
@@ -33,6 +35,16 @@ const Header = () => {
             })
             .catch((err) => console.log(err));
     }, []);
+
+    const reinitializeDB = () => {
+        axios
+            .get(`${process.env.REACT_APP_BACKEND_URL}/createdb`)
+            .then((res) => {
+                console.log('All tables initiated');
+                window.location = `${process.env.REACT_APP_FRONTEND_URL}`;
+            })
+            .catch((err) => console.log(err));
+    };
 
     function toggleDrawer() {
         setOpenedDrawer(!openedDrawer);
@@ -109,6 +121,21 @@ const Header = () => {
                                 </li>
                             )}
                         </ul>
+                        <Tooltip title="Refresh DB">
+                            <IconButton
+                                size="small"
+                                aria-label="show new home"
+                                edge="end"
+                                sx={{
+                                    color: 'blue',
+                                    background: 'white',
+                                    margin: '0.2em',
+                                }}
+                                onClick={() => reinitializeDB()}
+                            >
+                                <CachedIcon />
+                            </IconButton>
+                        </Tooltip>
                         {userData === null ? (
                             <h6 style={{ margin: '0.5em' }}>
                                 Please Login First
