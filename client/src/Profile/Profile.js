@@ -1,8 +1,23 @@
 import { useState, useEffect } from 'react';
 
-import { Grid } from '@mui/material';
+import {Grid } from '@mui/material';
+import FeatureProduct from '../landing/FeatureProduct';
+import axios from 'axios';
 
 const Profile = () => {
+    const [productList, setProductList] = useState([]);
+
+    const getItems = (_) => {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}`).then((res) => {
+            const pData = res.data;
+            console.log('product data', pData);
+            setProductList(pData);
+        });
+    };
+
+    useEffect(() => {
+        getItems();
+    }, []);
     // Getting details of the user
     const userData = JSON.parse(localStorage.getItem('profile'));
     const handleBalanceUpdate = () => {};
@@ -75,6 +90,15 @@ const Profile = () => {
                     </div>
                 </Grid>
             </Grid>
+            <h4>
+                Uploaded Products:
+            </h4>
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
+                {productList.map((product, index) => {
+                    // return <p>Got {product.prod_name}!</p>;
+                    return <FeatureProduct key={index} product={product} />;
+                })}
+            </div>
         </div>
     );
 };
