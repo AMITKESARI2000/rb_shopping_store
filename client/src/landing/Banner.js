@@ -38,8 +38,8 @@ function BannerImage(props) {
                 className="carousel-caption d-none d-lg-block"
                 style={{ color: 'cream', backgroundColor: 'rgb(11,11,11,0.5)' }}
             >
-                <h4>Banner Header</h4>
-                <h6>Some representative placeholder content for the banner.</h6>
+                <h4>RB SHOPPING STORE</h4>
+                <h6>Buy your dream</h6>
             </div>
         </div>
     );

@@ -26,9 +26,8 @@ function Landing() {
             <Banner />
             <div className="d-flex flex-column bg-white py-4">
                 <p className="text-center px-5">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Welcome to RB Shopping Store.
+                    Browse through products to buy your dream.
                 </p>
                 <div className="d-flex justify-content-center">
                     <Link to="/products" className="btn btn-primary" replace>

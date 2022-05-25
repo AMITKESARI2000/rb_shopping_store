@@ -103,28 +103,6 @@ const ProductDetail = () => {
                         </ol>
                     </nav>
                     <div className="row mb-4">
-                        <div className="d-none d-lg-block col-lg-1">
-                            <div className="image-vertical-scroller">
-                                <div className="d-flex flex-column">
-                                    {Array.from({ length: 10 }, (_, i) => {
-                                        let selected =
-                                            i !== 1 ? 'opacity-6' : '';
-                                        return (
-                                            <a key={i} href="!#">
-                                                <img
-                                                    className={
-                                                        'rounded mb-2 ratio ' +
-                                                        selected
-                                                    }
-                                                    alt=""
-                                                    src={Image}
-                                                />
-                                            </a>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
                         <div className="col-lg-6">
                             <div className="row">
                                 <div className="col-12 mb-4">
@@ -168,31 +146,31 @@ const ProductDetail = () => {
                                 <hr />
                                 <dl className="row">
                                     <dt className="col-sm-4">Code</dt>
-                                    <dd className="col-sm-8 mb-3">C0001</dd>
+                                    <dd className="col-sm-8 mb-3">{productData.pid}</dd>
 
                                     <dt className="col-sm-4">Category</dt>
                                     <dd className="col-sm-8 mb-3">
-                                        Cases & Covers
+                                        {productData.category}
                                     </dd>
 
                                     <dt className="col-sm-4">Brand</dt>
-                                    <dd className="col-sm-8 mb-3">iPhone X</dd>
+                                    <dd className="col-sm-8 mb-3">{productData.brand}</dd>
 
                                     <dt className="col-sm-4">Manufacturer</dt>
-                                    <dd className="col-sm-8 mb-3">Nillkin</dd>
+                                    <dd className="col-sm-8 mb-3">{productData.manufacturer}</dd>
 
                                     <dt className="col-sm-4">Color</dt>
                                     <dd className="col-sm-8 mb-3">
-                                        Red, Green, Blue, Pink
+                                        {productData.color}
                                     </dd>
 
                                     <dt className="col-sm-4">Status</dt>
-                                    <dd className="col-sm-8 mb-3">Instock</dd>
+                                    <dd className="col-sm-8 mb-3">{productData.prod_status}</dd>
 
                                     <dt className="col-sm-4">Rating</dt>
                                     <dd className="col-sm-8 mb-3">
                                         <Ratings
-                                            rating={4.5}
+                                            rating={productData.rating}
                                             widgetRatedColors="rgb(253, 204, 13)"
                                             changeRating={changeRating}
                                             widgetSpacings="2px"
@@ -221,20 +199,7 @@ const ProductDetail = () => {
                                 <hr />
                                 <p className="lead flex-shrink-0">
                                     <small>
-                                        Nature (TPU case) use environmental
-                                        non-toxic TPU, silky smooth and
-                                        ultrathin. Glittering and translucent,
-                                        arbitrary rue reserved volume button
-                                        cutouts, easy to operate. Side frosted
-                                        texture anti-slipping, details show its
-                                        concern; transparent frosted logo shows
-                                        its taste. The release of self, the
-                                        flavor of life. Nillkin launched Nature
-                                        transparent soft cover, only to retain
-                                        the original phone style. Subverting
-                                        tradition, redefinition. Thinner design
-                                        Environmental texture better hand
-                                        feeling.
+                                        {productData.prod_desc}
                                     </small>
                                 </p>
                             </div>

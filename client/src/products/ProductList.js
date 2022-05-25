@@ -6,18 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ScrollToTopOnMount from '../template/ScrollToTopOnMount';
 import axios from 'axios';
 
-const categories = [
-    'All Products',
-    'Phones & Tablets',
-    'Cases & Covers',
-    'Screen Guards',
-    'Cables & Chargers',
-    'Power Banks',
-];
-
-const brands = ['Apple', 'Samsung', 'Google', 'HTC'];
-
-const manufacturers = ['HOCO', 'Nillkin', 'Remax', 'Baseus'];
+let categories = [];
+let brands = [];
+let manufacturers = [];
 
 function FilterMenuLeft() {
     return (
@@ -116,6 +107,15 @@ const ProductList = () => {
     const getItems = (_) => {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}`).then((res) => {
             setProductsList(res.data);
+            productsList.forEach(
+                function (item, index) {
+                    categories.push(item.category);
+                    brands.push(item.brand);
+                    manufacturers.push(item.manufacturer);
+                    categories = [...new Set(categories)];
+                    brands = [...new Set(brands)];
+                    manufacturers = [...new Set(manufacturers)];
+                });
         });
     };
 
