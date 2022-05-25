@@ -20,9 +20,14 @@ const Profile = () => {
     }, []);
     // Getting details of the user
     const userData = JSON.parse(localStorage.getItem('profile'));
+    const handleBalanceUpdate = () => {};
 
     return (
-        <div className="card__collection clear-fix" style={{ margin: '6em' }}>
+        <div
+            className="card__collection clear-fix"
+            style={{ margin: '6em' }}
+            onMouseEnter={handleBalanceUpdate}
+        >
             <Grid container>
                 <Grid item sm={3} xs={12}>
                     {/* Image of the user  */}
@@ -76,6 +81,11 @@ const Profile = () => {
                         <h5 style={{ margin: 0 }}>Membership</h5>
                         <h3 style={{ marginTop: '0.3px', marginBottom: '2%' }}>
                             {userData.membership}
+                        </h3>
+                        {/* Balance of the user  */}
+                        <h5 style={{ margin: 0 }}>Balance</h5>
+                        <h3 style={{ marginTop: '0.3px', marginBottom: '2%' }}>
+                            Rs. {userData.balance}
                         </h3>
                     </div>
                 </Grid>

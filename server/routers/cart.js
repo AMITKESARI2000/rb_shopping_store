@@ -9,7 +9,7 @@ router.post('/get-cart', async (req, res) => {
     try {
         const { cid } = req.body;
 
-        // searching for the id
+        // searching for the cid
         let sqlQuery = `SELECT * FROM cart WHERE cid=${cid}`;
         dbConnection.query(sqlQuery, function (error, results) {
             if (error) throw error;
@@ -21,16 +21,42 @@ router.post('/get-cart', async (req, res) => {
     }
 });
 
+router.post('/del-cart', async (req, res) => {
+    try {
+        const { cid, uid, newBalance } = req.body;
+
+        // searching for the cid
+
+        let sqlQuery = `UPDATE user SET balance=${newBalance} WHERE uid=${uid}`;
+        dbConnection.query(sqlQuery, function (error, results) {
+            if (error) throw error;
+            console.log('updated balance :', newBalance);
+        });
+        sqlQuery = `DELETE FROM cart WHERE cid=${cid}`;
+        dbConnection.query(sqlQuery, function (error, results) {
+            if (error) throw error;
+            console.log('deleted cart, cid:', cid);
+        });
+        sqlQuery = `SELECT * FROM user WHERE uid=${uid}`;
+        dbConnection.query(sqlQuery, function (error, results) {
+            if (error) throw error;
+            console.log('return user, uid:', uid, results[0]);
+            res.send(results[0]);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 router.post('/del-product', async (req, res) => {
     try {
         const { payid } = req.body;
-        console.log('payid', payid);
+
         // searching for the cid
         let sqlQuery = `DELETE FROM cart WHERE payid=${payid}`;
         dbConnection.query(sqlQuery, function (error, results) {
             if (error) throw error;
-            console.log('deleted from cart', results[0]);
-            res.send(results[0]);
+            console.log('deleted from cart, payid:', payid);
         });
     } catch (err) {
         console.log(err);

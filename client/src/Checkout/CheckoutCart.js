@@ -1,11 +1,29 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Grid, Button } from '@mui/material';
+import {
+    Grid,
+    Button,
+    TextField,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Snackbar,
+} from '@mui/material';
+
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const CheckoutCart = () => {
     let sum = 0;
-    const userData = JSON.parse(localStorage.getItem('profile'));
+    const [userData, setUserData] = useState(
+        JSON.parse(localStorage.getItem('profile'))
+    );
     // uid = 0001, 0002, ...
     // pid = 1001, 1002, ...
     // cid = 2001, 2002, ...
@@ -15,6 +33,50 @@ const CheckoutCart = () => {
     const [loading, setLoading] = useState(true);
     const checkoutImageUrl =
         'https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fHNob3BwaW5nfGVufDB8fDB8fA%3D%3D&auto=format&w=900&h=400';
+
+    const [open, setDialogOpen] = useState(false);
+    const [snackbar, setSnackbar] = useState(false);
+
+    const handleClickOpen = () => {
+        setDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
+
+    const handleSnackbarClose = (event, reason) => {
+        // if (reason === 'clickaway') {
+        //     return;
+        // }
+
+        setSnackbar(false);
+    };
+
+    const handlePayment = () => {
+        axios
+            .post(`${process.env.REACT_APP_BACKEND_URL}/cart/del-cart`, {
+                cid: Cid,
+                uid: userData.uid,
+                newBalance: userData.balance - totalBilled,
+            })
+            .then((res) => {
+                setSnackbar(true);
+
+                setCartItems([]);
+                setUserData(res.data);
+                localStorage.setItem(
+                    'profile',
+                    JSON.stringify({ ...res.data })
+                );
+            })
+            .catch((err) => console.log(err));
+
+        setDialogOpen(false);
+        setTimeout(() => {
+            window.location = `${process.env.REACT_APP_FRONTEND_URL}#/profile/${userData.uid}`;
+        }, 500);
+    };
 
     useEffect(() => {
         axios
@@ -40,16 +102,21 @@ const CheckoutCart = () => {
                 payid: payid,
             })
             .then((res) => {
-                setCartItems(res.data);
-                sum = 0;
+                // setCartItems(res.data);
                 for (let i = 0; i < cartItems.length; i++) {
                     const element = cartItems[i];
-                    sum += element.bill;
+                    if (element.payid === payid) {
+                        sum -= element.bill;
+                        Math.ceil(sum);
+                    }
                 }
-                window.location.reload();
             })
             .catch((err) => console.log(err));
         setTotalBilled(sum);
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+        // console.log(payid, payid);
     };
 
     return (
@@ -87,6 +154,65 @@ const CheckoutCart = () => {
                                     <h4 style={{ fontStyle: 'italic' }}>
                                         Total Payable Amount: Rs. {totalBilled}
                                     </h4>
+
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={handleClickOpen}
+                                    >
+                                        Pay 💵
+                                    </Button>
+                                    <Dialog
+                                        open={open}
+                                        onClose={handleDialogClose}
+                                    >
+                                        <DialogTitle>
+                                            Payment Checkout
+                                        </DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText>
+                                                Confirm Password for a payment
+                                                of Rs. {Math.round(totalBilled)}
+                                                .00 from user account of{' '}
+                                                {userData.user_name}.<br />
+                                                <br />
+                                                Note: All taxes included
+                                            </DialogContentText>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                id="name"
+                                                label="Password"
+                                                type="password"
+                                                fullWidth
+                                                variant="standard"
+                                            />
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleDialogClose}>
+                                                Cancel
+                                            </Button>
+                                            <Button onClick={handlePayment}>
+                                                Pay!
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
+
+                                    <Snackbar
+                                        open={open}
+                                        autoHideDuration={6000}
+                                        onClose={handleSnackbarClose}
+                                    >
+                                        <Alert
+                                            onClose={handleSnackbarClose}
+                                            severity="success"
+                                            sx={{ width: '100%' }}
+                                        >
+                                            Paying Rs. {totalBilled}...
+                                        </Alert>
+                                    </Snackbar>
+
+                                    <hr></hr>
                                     <img
                                         className="card-img-top bg-dark cover"
                                         width="200"
@@ -99,8 +225,8 @@ const CheckoutCart = () => {
                                     <hr></hr>
                                     {cartItems.map((item, index) => {
                                         sum += item.bill;
-                                        Math.round(sum);
-                                        sum += 0.99;
+                                        Math.ceil(sum);
+
                                         return (
                                             <div key={index}>
                                                 <h4>
@@ -124,7 +250,11 @@ const CheckoutCart = () => {
                                                 <Button
                                                     variant="outlined"
                                                     color="error"
-                                                    // onClick={removeCartItem(item.payid)}
+                                                    onClick={() => {
+                                                        removeCartItem(
+                                                            item.payid
+                                                        );
+                                                    }}
                                                 >
                                                     Remove
                                                 </Button>

@@ -60,7 +60,6 @@ const ProductDetail = () => {
             .catch((err) => console.log(err));
     };
 
-
     return (
         <>
             {loading ? (
@@ -135,7 +134,10 @@ const ProductDetail = () => {
                                     </div>
                                     <Link to={`/checkout/${Cid}`}>
                                         <div className="col">
-                                            <button className="btn btn-dark py-2 w-100">
+                                            <button
+                                                className="btn btn-dark py-2 w-100"
+                                                onClick={addToCartClick}
+                                            >
                                                 Buy now
                                             </button>
                                         </div>
@@ -146,7 +148,9 @@ const ProductDetail = () => {
                                 <hr />
                                 <dl className="row">
                                     <dt className="col-sm-4">Code</dt>
-                                    <dd className="col-sm-8 mb-3">{productData.pid}</dd>
+                                    <dd className="col-sm-8 mb-3">
+                                        {productData.pid}
+                                    </dd>
 
                                     <dt className="col-sm-4">Category</dt>
                                     <dd className="col-sm-8 mb-3">
@@ -154,10 +158,14 @@ const ProductDetail = () => {
                                     </dd>
 
                                     <dt className="col-sm-4">Brand</dt>
-                                    <dd className="col-sm-8 mb-3">{productData.brand}</dd>
+                                    <dd className="col-sm-8 mb-3">
+                                        {productData.brand}
+                                    </dd>
 
                                     <dt className="col-sm-4">Manufacturer</dt>
-                                    <dd className="col-sm-8 mb-3">{productData.manufacturer}</dd>
+                                    <dd className="col-sm-8 mb-3">
+                                        {productData.manufacturer}
+                                    </dd>
 
                                     <dt className="col-sm-4">Color</dt>
                                     <dd className="col-sm-8 mb-3">
@@ -165,7 +173,9 @@ const ProductDetail = () => {
                                     </dd>
 
                                     <dt className="col-sm-4">Status</dt>
-                                    <dd className="col-sm-8 mb-3">{productData.prod_status}</dd>
+                                    <dd className="col-sm-8 mb-3">
+                                        {productData.prod_status}
+                                    </dd>
 
                                     <dt className="col-sm-4">Rating</dt>
                                     <dd className="col-sm-8 mb-3">
@@ -198,9 +208,7 @@ const ProductDetail = () => {
                                 <h4 className="mb-0">Description</h4>
                                 <hr />
                                 <p className="lead flex-shrink-0">
-                                    <small>
-                                        {productData.prod_desc}
-                                    </small>
+                                    <small>{productData.prod_desc}</small>
                                 </p>
                             </div>
                         </div>
