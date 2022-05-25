@@ -120,6 +120,7 @@ const ProductList = () => {
     };
 
     useEffect(() => {
+        console.log(111, categories, brands, manufacturers);
         getItems();
     }, []);
 

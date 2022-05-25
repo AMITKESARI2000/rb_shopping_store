@@ -27,11 +27,11 @@ const CheckoutCart = () => {
                 setCartItems(res.data);
             })
             .catch((err) => console.log(err));
-        setTotalBilled(sum);
+        setTotalBilled(sum.toFixed(2));
     }, []);
 
     const handleBillUpdate = () => {
-        setTotalBilled(sum);
+        setTotalBilled(sum.toFixed(2));
     };
 
     const removeCartItem = (payid) => {
