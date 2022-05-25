@@ -2,6 +2,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+
+const getCurrentDate = (separator = '/') => {
+    let newDate = new Date();
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+
+    return `${year}${separator}${
+        month < 10 ? `0${month}` : `${month}`
+    }${separator}${date}`;
+};
 
 const Header = () => {
     // Getting details of the user
@@ -73,7 +85,46 @@ const Header = () => {
                                     Explore
                                 </Link>
                             </li>
+                            {userData !== null && userData.is_seller === 0 ? (
+                                <li className="nav-item">
+                                    <Link
+                                        to={`/checkout/track/${Cid}`}
+                                        className="nav-link"
+                                        replace
+                                        onClick={changeNav}
+                                    >
+                                        Track Cart
+                                    </Link>
+                                </li>
+                            ) : (
+                                <li className="nav-item">
+                                    <Link
+                                        to="/products/add-product"
+                                        className="nav-link"
+                                        replace
+                                        onClick={changeNav}
+                                    >
+                                        Add Item
+                                    </Link>
+                                </li>
+                            )}
                         </ul>
+                        {userData === null ? (
+                            <h6 style={{ margin: '0.5em' }}>
+                                Please Login First
+                            </h6>
+                        ) : (
+                            <p
+                                style={{
+                                    margin: '0.5em',
+                                    backgroundColor: 'rgb(221,131,114,0.09)',
+                                }}
+                            >
+                                <LaptopMacIcon />
+                                &nbsp;
+                                {getCurrentDate()}
+                            </p>
+                        )}
                         <Link to={`/checkout/${Cid}`}>
                             <button
                                 type="button"
